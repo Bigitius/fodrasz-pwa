@@ -346,7 +346,7 @@
   .modal-mask{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
   .modal-mask.show{display:flex}
   .modal{background:linear-gradient(180deg,var(--panel),var(--bg2));border:1px solid var(--purple);border-radius:16px;
-    padding:22px;max-width:440px;width:100%;box-shadow:var(--glow)}
+    padding:22px;max-width:440px;width:100%;box-shadow:var(--glow);max-height:calc(100vh - 40px);overflow-y:auto}
   .modal h3{margin:0 0 14px;font-size:17px}
   .modal label{display:block;font-size:12px;color:var(--muted);font-weight:600;margin:11px 0 4px}
   .modal input,.modal select{width:100%;background:var(--bg2);border:1px solid var(--line);border-radius:9px;
@@ -1757,6 +1757,32 @@ document.getElementById('addNameBtn').onclick=function(){
   renderNevjegyzek();
   toast('Névjegy hozzáadva: '+nm);
 };
+// ---- Névjegy módosítása / törlése ----
+function editContact(name){
+  var all=loadBookings();
+  var rec=all.find(function(b){return b.contact && b.name===name;});
+  if(!rec){ toast('Nem található névjegy.'); return; }
+  var nm=prompt('Név módosítása:', rec.name);
+  if(nm===null) return;
+  nm=nm.trim(); if(!nm) return;
+  var ph=prompt('Telefonszám módosítása:', rec.phone||'');
+  if(ph===null) return;
+  ph=(ph||'').trim()||'-';
+  all.forEach(function(b){ if(b.contact && b.name===name){ b.name=nm; b.phone=ph; } });
+  saveBookings(all);
+  regName=nm;
+  renderNevjegyzek();
+  toast('Névjegy módosítva: '+nm);
+}
+function deleteContact(name){
+  if(!confirm('Biztosan törlöd ezt a névjegyet: '+name+'?')) return;
+  var all=loadBookings();
+  var maradek=all.filter(function(b){ return !(b.contact && b.name===name); });
+  saveBookings(maradek);
+  if(regName===name) regName=null;
+  renderNevjegyzek();
+  toast('Névjegy törölve: '+name);
+}
 function renderNevjegyzek(){
   var bks=loadBookings();
   var names=[...new Set(bks.filter(function(b){return b.name;}).map(x=>x.name))].sort((a,b)=>a.localeCompare(b));
@@ -1783,7 +1809,13 @@ function renderNevjegyzek(){
   var bksN=bks.filter(function(x){return x.name===regName;});
   var last=bksN.filter(function(x){return !x.contact;}).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,4);
   var ph=bksN.map(function(x){return x.phone;}).filter(Boolean)[0]||'-';
-  var head='<div class="lbl">'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></div>';
+  var isContactSel=bksN.some(function(b){return b.contact;}) && bksN.filter(function(b){return !b.contact;}).length===0;
+  var head='<div class="lbl" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">'+
+      '<span>'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></span>'+
+      (isContactSel?('<span class="bk-acts" style="margin:0">'+
+        '<button class="ed-btn" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
+        '<button class="del-btn" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button></span>'):'')+
+    '</div>';
   if(last.length===0){ detail.innerHTML=head+'<div class="hint">Névjegy — még nincs foglalása. Foglaláskor válaszd ki a nevét a listából.</div>'; return; }
   detail.innerHTML=head+'<div class="lbl" style="margin-top:8px">Utolsó 4 foglalása</div>'+
     last.map(function(x,idx){
@@ -1852,7 +1884,7 @@ renderFooldal();
 renderNevjegyzek();
 
 // === VERZIÓ (látható a böngésző fül címsorában) — minden módosításkor frissítsd! ===
-var APP_VER="2026-07-17 fix11";
+var APP_VER="2026-07-18 modal+nevjegy-szerk";
 (function(){
   var t=document.getElementById('pageTitle');
   if(t) t.textContent='Márti fodrászata · v'+APP_VER;
