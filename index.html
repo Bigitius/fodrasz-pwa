@@ -1822,8 +1822,8 @@ function renderNevjegyzek(){
   var last=bksN.filter(function(x){return !x.contact;}).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,4);
   var ph=bksN.map(function(x){return x.phone;}).filter(Boolean)[0]||'-';
   document.getElementById('contactActs').innerHTML=
-    '<button class="ed-btn" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
-    '<button class="del-btn" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button>';
+    '<button class="ed-btn" style="margin-top:0;padding:5px 11px;font-size:12px" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
+    '<button class="del-btn" style="margin-top:0;padding:5px 11px;font-size:12px" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button>';
   var head='<div class="lbl">'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></div>';
   if(last.length===0){ detail.innerHTML=head+'<div class="hint">Névjegy — még nincs foglalása. Foglaláskor válaszd ki a nevét a listából.</div>'; return; }
   detail.innerHTML=head+'<div class="lbl" style="margin-top:8px">Utolsó 4 foglalása</div>'+
@@ -1893,7 +1893,7 @@ renderFooldal();
 renderNevjegyzek();
 
 // === VERZIÓ (látható a böngésző fül címsorában) — minden módosításkor frissítsd! ===
-var APP_VER="2026-07-18 gombok-egy-sorban";
+var APP_VER="2026-07-18 gombok-egyforma-magas";
 (function(){
   var t=document.getElementById('pageTitle');
   if(t) t.textContent='Márti fodrászata · v'+APP_VER;
