@@ -1,4 +1,4 @@
-# Telepítési útmutató – Márti fodrászata alkalmazás
+﻿# Telepítési útmutató – Márti fodrászata alkalmazás
 
 Ez az útmutató végigvezet azon, hogyan tudod feltenni az alkalmazást az internetre,
 és hogyan tudod feltenni az iPad kezdőképernyőjére, hogy egy ikonra kattintva
@@ -73,4 +73,3 @@ Ez azt teszteli, hogy internet nélkül is működik-e az alkalmazás.
 
 <!-- frissites: v2 telepites inditasa 2026-07-18 -->
 
-<!-- git push teszt: helyi git beallitva 2026-07-18 -->
