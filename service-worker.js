@@ -1,4 +1,4 @@
-﻿const CACHE_NAME = 'fodrasz-foglalo-v4';
+﻿const CACHE_NAME = 'fodrasz-foglalo-v5';
 const CORE_ASSETS = ['./', './index.html', './manifest.json', './service-worker.js', './icon-180.png', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', (event) => {
