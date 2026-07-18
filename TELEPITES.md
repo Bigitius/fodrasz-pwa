@@ -72,3 +72,5 @@ Ez azt teszteli, hogy internet nélkül is működik-e az alkalmazás.
    meg egyszer újra internettel az appot, majd ismételd meg a 2–3. lépést.
 
 <!-- frissites: v2 telepites inditasa 2026-07-18 -->
+
+<!-- git push teszt: helyi git beallitva 2026-07-18 -->
