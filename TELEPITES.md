@@ -70,3 +70,5 @@ Ez azt teszteli, hogy internet nélkül is működik-e az alkalmazás.
    sikeres volt.
 5. Ha üres vagy hibás oldal jelenik meg, kapcsold ki a repülőgép módot, nyisd
    meg egyszer újra internettel az appot, majd ismételd meg a 2–3. lépést.
+
+<!-- frissites: v2 telepites inditasa 2026-07-18 -->
