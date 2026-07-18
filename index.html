@@ -427,7 +427,10 @@
         <div>
           <div class="lbl" style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
             <span>Névjegyzék</span>
-            <button class="add-name-btn" id="addNameBtn" title="Új névjegy hozzáadása">＋ Új névjegy</button>
+            <span style="display:flex;gap:8px;align-items:center">
+              <span id="contactActs"></span>
+              <button class="add-name-btn" id="addNameBtn" title="Új névjegy hozzáadása">＋ Új névjegy</button>
+            </span>
           </div>
           <div class="name-list" id="nameList"></div>
         </div>
@@ -1805,17 +1808,16 @@ function renderNevjegyzek(){
   list.querySelectorAll('.name-item').forEach(e=>e.onclick=function(){
     regName=this.getAttribute('data-n');renderNevjegyzek();
   });
-  if(!regName){detail.innerHTML='<div class="hint">Válassz egy nevet a bal oldalon az utolsó 4 foglalás megtekintéséhez.</div>';return;}
+  if(!regName){document.getElementById('contactActs').innerHTML='';detail.innerHTML='<div class="hint">Válassz egy nevet a bal oldalon az utolsó 4 foglalás megtekintéséhez.</div>';return;}
   var bksN=bks.filter(function(x){return x.name===regName;});
   var last=bksN.filter(function(x){return !x.contact;}).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,4);
   var ph=bksN.map(function(x){return x.phone;}).filter(Boolean)[0]||'-';
   var isContactSel=bksN.some(function(b){return b.contact;}) && bksN.filter(function(b){return !b.contact;}).length===0;
-  var head='<div class="lbl" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">'+
-      '<span>'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></span>'+
-      (isContactSel?('<span class="bk-acts" style="margin:0">'+
-        '<button class="ed-btn" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
-        '<button class="del-btn" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button></span>'):'')+
-    '</div>';
+  document.getElementById('contactActs').innerHTML=isContactSel?(
+    '<button class="ed-btn" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
+    '<button class="del-btn" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button>'
+  ):'';
+  var head='<div class="lbl">'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></div>';
   if(last.length===0){ detail.innerHTML=head+'<div class="hint">Névjegy — még nincs foglalása. Foglaláskor válaszd ki a nevét a listából.</div>'; return; }
   detail.innerHTML=head+'<div class="lbl" style="margin-top:8px">Utolsó 4 foglalása</div>'+
     last.map(function(x,idx){
@@ -1884,7 +1886,7 @@ renderFooldal();
 renderNevjegyzek();
 
 // === VERZIÓ (látható a böngésző fül címsorában) — minden módosításkor frissítsd! ===
-var APP_VER="2026-07-18 modal+nevjegy-szerk";
+var APP_VER="2026-07-18 nevjegy-gombok-fejlecben";
 (function(){
   var t=document.getElementById('pageTitle');
   if(t) t.textContent='Márti fodrászata · v'+APP_VER;
