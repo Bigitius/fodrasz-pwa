@@ -427,9 +427,9 @@
         <div>
           <div class="lbl" style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px">
             <div style="margin-bottom:8px">Névjegyzék</div>
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-              <span id="contactActs" style="display:flex;gap:8px"></span>
-              <button class="add-name-btn" id="addNameBtn" title="Új névjegy hozzáadása">＋ Új névjegy</button>
+            <div style="display:flex;gap:6px;align-items:center;flex-wrap:nowrap">
+              <span id="contactActs" style="display:flex;gap:6px"></span>
+              <button class="add-name-btn" id="addNameBtn" style="white-space:nowrap" title="Új névjegy hozzáadása">＋ Új névjegy</button>
             </div>
           </div>
           <div class="name-list" id="nameList"></div>
@@ -1822,19 +1822,15 @@ function renderNevjegyzek(){
   var last=bksN.filter(function(x){return !x.contact;}).sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time)).slice(0,4);
   var ph=bksN.map(function(x){return x.phone;}).filter(Boolean)[0]||'-';
   document.getElementById('contactActs').innerHTML=
-    '<button class="ed-btn" style="margin-top:0;padding:5px 11px;font-size:12px" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">✏️ Módosít</button>'+
-    '<button class="del-btn" style="margin-top:0;padding:5px 11px;font-size:12px" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">🗑 Töröl</button>';
+    '<button class="ed-btn" style="margin-top:0;padding:5px 9px;font-size:11px;white-space:nowrap" onclick="editContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">Módosít</button>'+
+    '<button class="del-btn" style="margin-top:0;padding:5px 9px;font-size:11px;white-space:nowrap" onclick="deleteContact(\''+escapeHtml(regName).replace(/'/g,"\\'")+'\')">Töröl</button>';
   var head='<div class="lbl">'+escapeHtml(regName)+' <span class="t2">☎ '+escapeHtml(ph)+'</span></div>';
   if(last.length===0){ detail.innerHTML=head+'<div class="hint">Névjegy — még nincs foglalása. Foglaláskor válaszd ki a nevét a listából.</div>'; return; }
   detail.innerHTML=head+'<div class="lbl" style="margin-top:8px">Utolsó 4 foglalása</div>'+
     last.map(function(x,idx){
-      var id=bkId(x);
       return '<div class="reg-bk"><div class="d">'+x.date+' · '+x.time+
               (x.phone&&x.phone!=='-'?' <span class="t2">☎ '+escapeHtml(x.phone)+'</span>':'')+'</div>'+
-        '<div class="s">'+escapeHtml(x.service)+' ('+x.dur+'p)</div>'+
-        '<div class="bk-acts">'+
-        '<button class="ed-btn" onclick="openEditById(\''+id+'\')">✏️ Módosít</button>'+
-        '<button class="del-btn" onclick="deleteById(\''+id+'\')">🗑 Töröl</button></div></div>';
+        '<div class="s">'+escapeHtml(x.service)+' ('+x.dur+'p)</div></div>';
     }).join('');
 }
 
@@ -1893,7 +1889,7 @@ renderFooldal();
 renderNevjegyzek();
 
 // === VERZIÓ (látható a böngésző fül címsorában) — minden módosításkor frissítsd! ===
-var APP_VER="12";
+var APP_VER="13";
 (function(){
   var t=document.getElementById('pageTitle');
   if(t) t.textContent='Márti fodrászata · v'+APP_VER;
