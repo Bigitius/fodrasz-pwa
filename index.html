@@ -425,12 +425,12 @@
     <section class="panel view" id="view-nevjegyzek">
       <div class="reg-wrap">
         <div>
-          <div class="lbl" style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between">
-            <span>Névjegyzék</span>
-            <span style="display:flex;gap:8px;align-items:center">
-              <span id="contactActs"></span>
+          <div class="lbl" style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:10px">
+            <div style="margin-bottom:8px">Névjegyzék</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <span id="contactActs" style="display:flex;gap:8px"></span>
               <button class="add-name-btn" id="addNameBtn" title="Új névjegy hozzáadása">＋ Új névjegy</button>
-            </span>
+            </div>
           </div>
           <div class="name-list" id="nameList"></div>
         </div>
@@ -1893,7 +1893,7 @@ renderFooldal();
 renderNevjegyzek();
 
 // === VERZIÓ (látható a böngésző fül címsorában) — minden módosításkor frissítsd! ===
-var APP_VER="2026-07-18 nevjegy-gombok-mindig";
+var APP_VER="2026-07-18 gombok-egy-sorban";
 (function(){
   var t=document.getElementById('pageTitle');
   if(t) t.textContent='Márti fodrászata · v'+APP_VER;
